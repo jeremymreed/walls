@@ -15,30 +15,39 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Wallpaper Manager'),
+      home: const App(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class App extends StatelessWidget {
+  const App({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Text('Hello World!'),
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Wallpaper Manager'),
+          bottom: const TabBar(
+            tabs: <Widget>[
+              Tab(text: 'Outputs'),
+              Tab(text: 'Collection'),
+              Tab(text: 'Tags'),
+              Tab(text: 'Settings'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: <Widget>[
+            Center(child: Text('Outputs')),
+            Center(child: Text('Collection')),
+            Center(child: Text('Tags')),
+            Center(child: Text('Settings')),
+          ],
+        ),
       ),
     );
   }
