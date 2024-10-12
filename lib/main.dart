@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:walls/pages/collection_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +44,7 @@ class App extends StatelessWidget {
         body: const TabBarView(
           children: <Widget>[
             Center(child: Text('Outputs')),
-            Center(child: Text('Collection')),
+            CollectionPage(),
             Center(child: Text('Tags')),
             Center(child: Text('Settings')),
           ],
