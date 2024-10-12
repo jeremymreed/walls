@@ -13,7 +13,7 @@ class CollectionPage extends StatelessWidget {
           if (snapshot.hasData) {
             List<Map<String, Object?>> wallpaperEntries = snapshot.data!;
             if (wallpaperEntries.isNotEmpty) {
-              return const Text('Collection');
+              return const Text('Gallery');
             } else {
               return const Text('Importer');
             }
