@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:walls/main.dart';
 
 class CollectionPage extends StatelessWidget {
   const CollectionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Collection'),
+    return Center(
+      child: FutureBuilder(
+        future: db.getWallpapers(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Map<String, Object?>> wallpaperEntries = snapshot.data!;
+            if (wallpaperEntries.isNotEmpty) {
+              return const Text('Collection');
+            } else {
+              return const Text('Importer');
+            }
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }
