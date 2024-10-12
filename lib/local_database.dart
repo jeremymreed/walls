@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:walls/image_entry.dart';
+import 'package:walls/models/image_entry.dart';
 
 class LocalDatabase {
   final String dbPath;
@@ -30,10 +30,6 @@ class LocalDatabase {
 
   Future<List<Map<String, Object?>>> getWallpapers() async {
     var wallpaperList = await _db.rawQuery('SELECT * FROM wallpapers');
-
-    for (var wallpaper in wallpaperList) {
-      debugPrint('Wallpaper: $wallpaper');
-    }
 
     return wallpaperList;
   }
