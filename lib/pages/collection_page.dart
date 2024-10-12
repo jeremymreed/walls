@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:walls/main.dart';
-import 'package:walls/pages/importer_page.dart';
+import 'package:walls/pages/collection_importer_page.dart';
 
-class CollectionPage extends StatelessWidget {
+class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
+
+  @override
+  State<CollectionPage> createState() => _CollectionPageState();
+}
+
+class _CollectionPageState extends State<CollectionPage> {
+  List<Map<String, Object?>> _wallpaperEntries = List.empty(growable: true);
+
+  Future<void> _reload() async {
+    List<Map<String, Object?>> entries = await db.getWallpapers();
+    setState(() {
+      _wallpaperEntries = entries;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +26,11 @@ class CollectionPage extends StatelessWidget {
         future: db.getWallpapers(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Map<String, Object?>> wallpaperEntries = snapshot.data!;
-            if (wallpaperEntries.isNotEmpty) {
+            _wallpaperEntries = snapshot.data!;
+            if (_wallpaperEntries.isNotEmpty) {
               return const Text('Gallery');
             } else {
-              return const CollectionImporter();
+              return CollectionImporter(onRefresh: _reload);
             }
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');

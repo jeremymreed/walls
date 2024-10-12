@@ -8,7 +8,9 @@ import 'package:walls/importer/image_importer.dart';
 import 'package:walls/importer/image_validator.dart';
 
 class CollectionImporter extends StatefulWidget {
-  const CollectionImporter({super.key});
+  final VoidCallback onRefresh;
+
+  const CollectionImporter({super.key, required this.onRefresh});
 
   @override
   State<CollectionImporter> createState() => _CollectionImporterState();
@@ -118,6 +120,13 @@ class _CollectionImporterState extends State<CollectionImporter> {
                 }
               },
               child: const Text('Import Wallpapers'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                widget.onRefresh();
+              },
+              child: const Text('Refresh'),
             ),
             const SizedBox(height: 10),
             Text('Process files duration: $_processFilesDuration'),
