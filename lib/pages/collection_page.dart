@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:walls/main.dart';
 import 'package:walls/pages/collection_importer_page.dart';
+import 'package:walls/pages/gallery_page.dart';
 
 class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
@@ -28,7 +29,7 @@ class _CollectionPageState extends State<CollectionPage> {
           if (snapshot.hasData) {
             _wallpaperEntries = snapshot.data!;
             if (_wallpaperEntries.isNotEmpty) {
-              return const Text('Gallery');
+              return const GalleryPage();
             } else {
               return CollectionImporter(onRefresh: _reload);
             }
