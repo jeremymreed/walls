@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walls/main.dart';
+import 'package:walls/models/image_entry.dart';
 import 'package:walls/pages/collection_importer_page.dart';
 import 'package:walls/pages/gallery_page.dart';
 
@@ -11,10 +12,10 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPageState extends State<CollectionPage> {
-  List<Map<String, Object?>> _wallpaperEntries = List.empty(growable: true);
+  List<ImageEntry> _wallpaperEntries = List.empty(growable: true);
 
   Future<void> _reload() async {
-    List<Map<String, Object?>> entries = await db.getWallpapers();
+    List<ImageEntry> entries = await db.getWallpapers();
     setState(() {
       _wallpaperEntries = entries;
     });

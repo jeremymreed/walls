@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:walls/mappers/image_entry_mapper.dart';
 import 'package:walls/models/image_entry.dart';
 
 class LocalDatabase {
@@ -28,8 +29,9 @@ class LocalDatabase {
     return _db.isOpen;
   }
 
-  Future<List<Map<String, Object?>>> getWallpapers() async {
-    var wallpaperList = await _db.rawQuery('SELECT * FROM wallpapers');
+  Future<List<ImageEntry>> getWallpapers() async {
+    var wallpaperList = ImageEntryMapper.mapToImageEntries(
+        await _db.rawQuery('SELECT * FROM wallpapers'));
 
     return wallpaperList;
   }
