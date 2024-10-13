@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walls/models/image_entry.dart';
+import 'package:walls/widgets/thumbnail.dart';
 
 class ImageCard extends StatefulWidget {
   final int _index;
@@ -32,8 +33,15 @@ class _ImageCardState extends State<ImageCard> {
             colors: <Color>[Color(0x0F88EEFF), Color(0x2F0099BB)],
           ),
         ),
-        child: Center(
-          child: Text('Name: ${widget._imageEntry.path}'),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+              child: Column(
+            children: <Widget>[
+              Thumbnail(imagePath: widget._imageEntry.path),
+              Text('Name: ${widget._imageEntry.path}'),
+            ],
+          )),
         ),
       ),
     );

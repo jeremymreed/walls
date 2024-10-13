@@ -36,7 +36,7 @@ class _GalleryPageState extends State<GalleryPage> {
           child: GridView.builder(
               controller: _controller,
               padding: const EdgeInsets.all(12.0),
-              gridDelegate: CustomGridDelegate(rawDimension: 240.0),
+              gridDelegate: CustomGridDelegate(rawDimension: 310.0),
               itemCount: widget._wallpaperEntries.length,
               itemBuilder: (BuildContext context, int index) {
                 return ImageCard(
