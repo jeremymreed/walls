@@ -30,7 +30,9 @@ class _CollectionPageState extends State<CollectionPage> {
           if (snapshot.hasData) {
             _wallpaperEntries = snapshot.data!;
             if (_wallpaperEntries.isNotEmpty) {
-              return const GalleryPage();
+              return GalleryPage(
+                wallpaperEntries: _wallpaperEntries,
+              );
             } else {
               return CollectionImporter(onRefresh: _reload);
             }
