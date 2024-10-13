@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walls/models/image_entry.dart';
-import 'package:walls/pages/image_card.dart';
+import 'package:walls/widgets/image_card.dart';
 import 'package:walls/pages/gallery_delegate.dart';
 
 class GalleryPage extends StatefulWidget {
