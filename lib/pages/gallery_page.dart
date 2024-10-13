@@ -40,8 +40,7 @@ class _GalleryPageState extends State<GalleryPage> {
               itemCount: widget._wallpaperEntries.length,
               itemBuilder: (BuildContext context, int index) {
                 return ImageCard(
-                    index: index,
-                    imagePath: widget._wallpaperEntries[index].path);
+                    index: index, imageEntry: widget._wallpaperEntries[index]);
               }),
         ),
       ),

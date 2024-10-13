@@ -3,11 +3,12 @@ import 'package:walls/models/image_entry.dart';
 
 class ImageCard extends StatefulWidget {
   final int _index;
-  final String _imagePath;
+  final ImageEntry _imageEntry;
 
-  const ImageCard({super.key, required int index, required String imagePath})
+  const ImageCard(
+      {super.key, required int index, required ImageEntry imageEntry})
       : _index = index,
-        _imagePath = imagePath;
+        _imageEntry = imageEntry;
 
   @override
   State<ImageCard> createState() => _ImageCardState();
@@ -32,7 +33,7 @@ class _ImageCardState extends State<ImageCard> {
           ),
         ),
         child: Center(
-          child: Text('Name: ${widget._imagePath}'),
+          child: Text('Name: ${widget._imageEntry.path}'),
         ),
       ),
     );
