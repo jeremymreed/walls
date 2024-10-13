@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:walls/models/image_entry.dart';
+import 'package:walls/pages/image_card.dart';
 import 'package:walls/pages/gallery_delegate.dart';
 
 class GalleryPage extends StatefulWidget {
-  const GalleryPage({super.key});
+  final List<ImageEntry> _wallpaperEntries;
+
+  const GalleryPage({super.key, required List<ImageEntry> wallpaperEntries})
+      : _wallpaperEntries = wallpaperEntries;
 
   @override
   State<GalleryPage> createState() => _GalleryPageState();
@@ -32,28 +37,11 @@ class _GalleryPageState extends State<GalleryPage> {
               controller: _controller,
               padding: const EdgeInsets.all(12.0),
               gridDelegate: CustomGridDelegate(rawDimension: 240.0),
-              itemCount: 100,
+              itemCount: widget._wallpaperEntries.length,
               itemBuilder: (BuildContext context, int index) {
-                return GridTile(
-                  header: GridTileBar(
-                    title: Text('$index',
-                        style: const TextStyle(color: Colors.black)),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.all(12.0),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      gradient: const RadialGradient(
-                        colors: <Color>[Color(0x0F88EEFF), Color(0x2F0099BB)],
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text('Foo!'),
-                    ),
-                  ),
-                );
+                return ImageCard(
+                    index: index,
+                    imagePath: widget._wallpaperEntries[index].path);
               }),
         ),
       ),
