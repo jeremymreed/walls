@@ -37,11 +37,11 @@ class ImageValidator {
   final FreeImageData free_image_data;
 
   ImageValidator()
-      : dl = ffi.DynamicLibrary.open('libs/libtest_targets.so'),
-        free_image_data = ffi.DynamicLibrary.open('libs/libtest_targets.so')
+      : dl = ffi.DynamicLibrary.open('libs/libimage_decoder.so'),
+        free_image_data = ffi.DynamicLibrary.open('libs/libimage_decoder.so')
             .lookup<ffi.NativeFunction<FreeImageDataFunc>>('free_image_data')
             .asFunction(),
-        process_file = ffi.DynamicLibrary.open('libs/libtest_targets.so')
+        process_file = ffi.DynamicLibrary.open('libs/libimage_decoder.so')
             .lookup<ffi.NativeFunction<ProcessFileFunc>>('process_file')
             .asFunction();
 
