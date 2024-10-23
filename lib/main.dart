@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:walls/config.dart';
 import 'package:walls/local_database.dart';
-import 'package:walls/pages/collection_page.dart';
+import 'package:walls/pages/collection/collection_page.dart';
 
 // We're supporting only Linux, so this hardcoded path is ok.
 final String dbPathBase = '${xdg.dataHome.path}/walls';

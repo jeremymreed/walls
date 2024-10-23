@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:walls/main.dart';
 import 'package:walls/models/image_entry.dart';
-import 'package:walls/pages/collection_importer_page.dart';
-import 'package:walls/pages/gallery_page.dart';
+import 'package:walls/pages/collection/collection_importer_page.dart';
+import 'package:walls/pages/collection/gallery_page.dart';
 
 class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
