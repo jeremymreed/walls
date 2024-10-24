@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:walls/main.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
 import 'package:walls/models/image_entry.dart';
-import 'package:walls/profiler.dart';
 import 'package:walls/importer/image_importer.dart';
 import 'package:walls/importer/image_validator.dart';
 
@@ -17,7 +16,6 @@ class CollectionImporter extends StatefulWidget {
 }
 
 class _CollectionImporterState extends State<CollectionImporter> {
-  final Profiler _profiler = Profiler();
   final ImageImporter _imageImporter = ImageImporter();
   final ImageValidator _imageValidator = ImageValidator();
   final TextEditingController _textEditingController = TextEditingController();
@@ -29,9 +27,9 @@ class _CollectionImporterState extends State<CollectionImporter> {
   int _totalProcessedFiles = 0;
 
   Future<void> _processFiles() async {
-    _profiler.startProfiling('Started _processFiles()');
+    DateTime start = DateTime.now();
     List<String> files = _imageImporter.getFileList(_collectionPath);
-    List<ImageEntry> imageEntries = List.empty(growable: true);
+    List<ImageEntry> imageEntries = List<ImageEntry>.empty(growable: true);
 
     setState(() {
       _numFiles = files.length;
@@ -52,6 +50,7 @@ class _CollectionImporterState extends State<CollectionImporter> {
       }
       setState(() {
         _totalProcessedFiles++;
+        _processFilesDuration = DateTime.now().difference(start);
       });
 
       await Future.delayed(const Duration(milliseconds: 10));
@@ -60,8 +59,7 @@ class _CollectionImporterState extends State<CollectionImporter> {
     db.insertImages(imageEntries: imageEntries);
     debugPrint('Inserted ${imageEntries.length} images into the database.');
     setState(() {
-      _processFilesDuration =
-          _profiler.getDifferenceStartNow('Finished _processFiles()');
+      _processFilesDuration = DateTime.now().difference(start);
     });
   }
 
