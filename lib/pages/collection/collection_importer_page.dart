@@ -40,15 +40,14 @@ class _CollectionImporterState extends State<CollectionImporter> {
 
       if (imageEntry != null) {
         imageEntries.add(imageEntry);
-        setState(() {
-          _numValidImages++;
-        });
-      } else {
-        setState(() {
-          _numInvalidFiles++;
-        });
       }
+
       setState(() {
+        if (imageEntry != null) {
+          _numValidImages++;
+        } else {
+          _numInvalidFiles++;
+        }
         _totalProcessedFiles++;
         _processFilesDuration = DateTime.now().difference(start);
       });
@@ -71,6 +70,7 @@ class _CollectionImporterState extends State<CollectionImporter> {
     _numValidImages = 0;
     _numInvalidFiles = 0;
     _totalProcessedFiles = 0;
+    _processFilesDuration = Duration.zero;
     super.initState();
   }
 
