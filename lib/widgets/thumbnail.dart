@@ -35,10 +35,17 @@ class Thumbnail extends StatefulWidget {
 }
 
 class _ThumbnailState extends State<Thumbnail> {
+  late Future<void> _thumbnailFuture;
   ThumbnailStatus _thumbnailStatus = ThumbnailStatus.idle;
   String _thumbnailPath = '';
   // This should be a user setting.
   final String _selectedFlavor = toHyphenString(ThumbnailFlavor.large.name);
+
+  @override
+  void initState() {
+    _thumbnailFuture = _requestThumbnail();
+    super.initState();
+  }
 
   Future<void> _requestThumbnail() async {
     String imagePath = shell_utils.expandTilde(widget._imagePath);
@@ -105,14 +112,14 @@ class _ThumbnailState extends State<Thumbnail> {
           File(_thumbnailPath),
         );
       case ThumbnailStatus.error:
-        return const Icon(Icons.error_outline);
+        return const Icon(Icons.error_outline, color: Colors.red, size: 128.0);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _requestThumbnail(),
+        future: _thumbnailFuture,
         builder: (context, snapshot) {
           return _generateThumbnail();
         });
