@@ -1,3 +1,6 @@
+// Needed for ThumbnailFlavor enum.
+// ignore_for_file: constant_identifier_names
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
@@ -8,6 +11,17 @@ enum ThumbnailStatus {
   loading,
   loaded,
   error,
+}
+
+enum ThumbnailFlavor {
+  normal,
+  large,
+  x_large,
+  xx_large,
+}
+
+String toHyphenString(String input) {
+  return input.replaceAll('_', '-');
 }
 
 class Thumbnail extends StatefulWidget {
@@ -23,7 +37,8 @@ class Thumbnail extends StatefulWidget {
 class _ThumbnailState extends State<Thumbnail> {
   ThumbnailStatus _thumbnailStatus = ThumbnailStatus.idle;
   String _thumbnailPath = '';
-  final String _selectedFlavor = 'large';
+  // This should be a user setting.
+  final String _selectedFlavor = toHyphenString(ThumbnailFlavor.large.name);
 
   Future<void> _requestThumbnail() async {
     String imagePath = shell_utils.expandTilde(widget._imagePath);
