@@ -61,6 +61,7 @@ class _ThumbnailState extends State<Thumbnail> {
       return;
     }
 
+    // In the future this function should return a folder icon.
     if (FileSystemEntity.isDirectorySync(imagePath)) {
       debugPrint('Cannot thumbnail a directory.');
       setState(() {
