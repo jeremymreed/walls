@@ -5,6 +5,10 @@ import 'package:crypto/crypto.dart';
 import 'package:dbus/dbus.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
 
+// What happens if the thumbnailer never returns a signal?
+// We're assuming we'll be getting a Finished signal for every request.
+// Also assuming that if there is an Error, we'll also get a Finished signal.
+// Need to have a time out.
 Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
   var client = DBusClient.session();
   var object = DBusRemoteObject(client,
@@ -24,6 +28,7 @@ Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
   ];
   bool complete = false;
   try {
+    debugPrint('Requesting thumbnail for ${file.path}');
     objectManager.signals.listen((signal) {
       debugPrint('Signal received: ${signal.name}');
 
