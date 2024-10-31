@@ -43,8 +43,16 @@ class _ThumbnailState extends State<Thumbnail> {
 
   @override
   void initState() {
-    _thumbnailFuture = _requestThumbnail();
     super.initState();
+    _thumbnailFuture = _requestThumbnail();
+  }
+
+  @override
+  void didUpdateWidget(covariant Thumbnail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget._imagePath != widget._imagePath) {
+      _thumbnailFuture = _requestThumbnail();
+    }
   }
 
   Future<void> _requestThumbnail() async {
