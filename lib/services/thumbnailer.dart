@@ -44,21 +44,34 @@ Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
     var id = result.returnValues[0];
     debugPrint('Query response: ${id.toNative()}');
 
-    // Wait for the Finished signal.  Add a time out here.
-    int milliseconds = 10000;
-    while (!complete && milliseconds > 0) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      milliseconds -= 100;
-    }
+    await Future.any([
+      Future.delayed(const Duration(seconds: 10)),
+      Future.doWhile(() async {
+        if (complete) {
+          return false;
+        }
+        await Future.delayed(const Duration(milliseconds: 100));
+        return true;
+      })
+    ]);
   } on DBusServiceUnknownException {
     debugPrint('Thumbnailer service not available');
     return false;
+  } catch (e) {
+    debugPrint('Some other error occurred: $e');
+    return false;
+  } finally {
+    await client.close();
   }
-  await client.close();
+
   return complete;
 }
 
 String generateThumbnailFilename(File file) {
+  if (file.path.isEmpty) {
+    throw ArgumentError('File path cannot be empty');
+  }
+
   String fullPath = 'file://${file.path}';
 
   var data = utf8.encode(fullPath);

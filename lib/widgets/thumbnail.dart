@@ -52,8 +52,7 @@ class _ThumbnailState extends State<Thumbnail> {
     debugPrint('_imagePath: ${widget._imagePath}');
     File file = File(imagePath);
 
-    if (!FileSystemEntity.isFileSync(imagePath) &&
-        !FileSystemEntity.isDirectorySync(imagePath)) {
+    if (!file.existsSync()) {
       debugPrint('File does not exist');
       setState(() {
         _thumbnailStatus = ThumbnailStatus.error;
@@ -62,6 +61,9 @@ class _ThumbnailState extends State<Thumbnail> {
     }
 
     // In the future this function should return a folder icon.
+    // There are no directories in the database, but we'll have a
+    // a file picker for importing individual files.
+    // For now, this is ok.
     if (FileSystemEntity.isDirectorySync(imagePath)) {
       debugPrint('Cannot thumbnail a directory.');
       setState(() {
