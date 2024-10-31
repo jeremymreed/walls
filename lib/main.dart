@@ -6,6 +6,7 @@ import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:walls/config.dart';
 import 'package:walls/local_database.dart';
 import 'package:walls/pages/collection/collection_page.dart';
+import 'package:walls/pages/output_status/output_status_page.dart';
 
 // We're supporting only Linux, so this hardcoded path is ok.
 final String dbPathBase = '${xdg.dataHome.path}/walls';
@@ -81,7 +82,7 @@ class App extends StatelessWidget {
         ),
         body: const TabBarView(
           children: <Widget>[
-            Center(child: Text('Outputs')),
+            OutputStatusPage(),
             CollectionPage(),
             Center(child: Text('Tags')),
             Center(child: Text('Settings')),
