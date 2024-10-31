@@ -11,24 +11,29 @@ class OutputStatusPage extends StatefulWidget {
 
 class _OutputStatusPageState extends State<OutputStatusPage> {
   late Future<GetOutputsSettingsResponse> _outputsSettingsFuture;
+  late List<DropdownMenuEntry<int>> _outputItems;
+  late int? _selectedOutput;
 
-  late List<DropdownMenuEntry<String>> _outputItems;
-
-  List<DropdownMenuEntry<String>> _buildDropdownMenuItems(
+  List<DropdownMenuEntry<int>> _buildDropdownMenuItems(
       List<OutputSetting> settings) {
-    return settings.map((setting) {
-      return DropdownMenuEntry<String>(
-        label: setting.name,
-        value: setting.name,
-      );
-    }).toList();
+    List<DropdownMenuEntry<int>> entries = <DropdownMenuEntry<int>>[];
+
+    for (int i = 0; i < settings.length; i++) {
+      entries.add(DropdownMenuEntry<int>(
+        label: settings[i].name,
+        value: i,
+      ));
+    }
+
+    return entries;
   }
 
   @override
   void initState() {
     super.initState();
     _outputsSettingsFuture = sendGetOutputsSettings();
-    _outputItems = <DropdownMenuEntry<String>>[];
+    _outputItems = <DropdownMenuEntry<int>>[];
+    _selectedOutput = 0;
     super.initState();
   }
 
@@ -46,9 +51,14 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
           }
 
           return Center(
-            child: DropdownMenu<String>(
-              initialSelection: _outputItems[0].value,
+            child: DropdownMenu<int>(
+              initialSelection: 0,
               dropdownMenuEntries: _outputItems,
+              onSelected: (int? value) {
+                setState(() {
+                  _selectedOutput = value;
+                });
+              },
             ),
           );
         } else if (snapshot.hasError) {
