@@ -1,9 +1,7 @@
-// Needed for ThumbnailFlavor enum.
-// ignore_for_file: constant_identifier_names
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
+import 'package:walls/enums/thumbnail_flavor_enum.dart';
 import 'package:walls/services/thumbnailer/thumbnailer.dart';
 
 enum ThumbnailStatus {
@@ -13,22 +11,16 @@ enum ThumbnailStatus {
   error,
 }
 
-enum ThumbnailFlavor {
-  normal,
-  large,
-  x_large,
-  xx_large,
-}
-
-String toHyphenString(String input) {
-  return input.replaceAll('_', '-');
-}
-
 class Thumbnail extends StatefulWidget {
   final String _imagePath;
+  final ThumbnailFlavor _flavor;
 
-  const Thumbnail({super.key, required String imagePath})
-      : _imagePath = imagePath;
+  const Thumbnail(
+      {super.key,
+      required String imagePath,
+      ThumbnailFlavor flavor = ThumbnailFlavor.large})
+      : _imagePath = imagePath,
+        _flavor = flavor;
 
   @override
   State<Thumbnail> createState() => _ThumbnailState();
@@ -39,7 +31,7 @@ class _ThumbnailState extends State<Thumbnail> {
   ThumbnailStatus _thumbnailStatus = ThumbnailStatus.idle;
   String _thumbnailPath = '';
   // This should be a user setting.
-  final String _selectedFlavor = toHyphenString(ThumbnailFlavor.large.name);
+  //final ThumbnailFlavor _selectedFlavor = ThumbnailFlavor.large;
 
   @override
   void initState() {
@@ -50,7 +42,8 @@ class _ThumbnailState extends State<Thumbnail> {
   @override
   void didUpdateWidget(covariant Thumbnail oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget._imagePath != widget._imagePath) {
+    if (oldWidget._imagePath != widget._imagePath ||
+        oldWidget._flavor != widget._flavor) {
       _thumbnailFuture = _requestThumbnail();
     }
   }
@@ -80,7 +73,7 @@ class _ThumbnailState extends State<Thumbnail> {
     }
 
     String thumbnailPath =
-        '~/.cache/thumbnails/$_selectedFlavor/${generateThumbnailFilename(file)}';
+        '~/.cache/thumbnails/${toHyphenString(widget._flavor.name)}/${generateThumbnailFilename(file)}';
     thumbnailPath = shell_utils.expandTilde(thumbnailPath);
 
     if (File(thumbnailPath).existsSync()) {
@@ -95,7 +88,7 @@ class _ThumbnailState extends State<Thumbnail> {
         _thumbnailStatus = ThumbnailStatus.loading;
       });
 
-      await requestThumbnail(file, _selectedFlavor);
+      await requestThumbnail(file, toHyphenString(widget._flavor.name));
 
       if (File(thumbnailPath).existsSync()) {
         setState(() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:walls/services/wallsd/wallsd_commands.dart';
 import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
+import 'package:walls/enums/thumbnail_flavor_enum.dart';
 import 'package:walls/widgets/thumbnail.dart';
 
 class OutputStatusPage extends StatefulWidget {
@@ -68,7 +69,9 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
                   },
                 ),
                 const SizedBox(height: 10),
-                Thumbnail(imagePath: _selectedOutput!.wallpaper),
+                Thumbnail(
+                    imagePath: _selectedOutput!.wallpaper,
+                    flavor: ThumbnailFlavor.xx_large),
               ],
             ),
           );
