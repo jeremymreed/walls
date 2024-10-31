@@ -39,7 +39,7 @@ class _ImageCardState extends State<ImageCard> {
               child: Column(
             children: <Widget>[
               Thumbnail(imagePath: widget._imageEntry.path),
-              Text('Name: ${widget._imageEntry.path}'),
+              SelectableText('Name: ${widget._imageEntry.path}'),
             ],
           )),
         ),
