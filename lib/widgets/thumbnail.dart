@@ -4,7 +4,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
-import 'package:walls/services/thumbnailer.dart';
+import 'package:walls/services/thumbnailer/thumbnailer.dart';
 
 enum ThumbnailStatus {
   idle,
