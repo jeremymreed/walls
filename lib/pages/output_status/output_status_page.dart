@@ -1,3 +1,4 @@
+import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:walls/services/wallsd/wallsd_commands.dart';
 import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
@@ -76,7 +77,21 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          if (snapshot.error is DBusServiceUnknownException) {
+            return const Center(
+              child: Text(
+                'Error: Cannot connect with daemon.  Is wallsd running?',
+                style: TextStyle(fontSize: 50, color: Colors.red),
+              ),
+            );
+          } else {
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: const TextStyle(fontSize: 50, color: Colors.red),
+              ),
+            );
+          }
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: SizedBox(
