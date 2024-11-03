@@ -71,7 +71,7 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
                 const SizedBox(height: 10),
                 Thumbnail(
                     imagePath: _selectedOutput!.wallpaper,
-                    flavor: ThumbnailFlavor.xx_large),
+                    flavor: ThumbnailFlavor.x_large),
               ],
             ),
           );
