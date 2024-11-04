@@ -6,13 +6,14 @@ class OutputSetting {
   final String oncalendar;
   final String wallpaper;
   final int numWallpapers;
+  final List<String> images;
 
   OutputSetting(this.name, this.mode, this.oncalendar, this.wallpaper,
-      this.numWallpapers);
+      this.numWallpapers, this.images);
 
   @override
   String toString() {
-    return 'OutputSetting{name: $name, mode: $mode, oncalendar: $oncalendar, wallpaper: $wallpaper, numWallpapers: $numWallpapers}';
+    return 'OutputSetting{name: $name, mode: $mode, oncalendar: $oncalendar, wallpaper: $wallpaper, numWallpapers: $numWallpapers, images: $images}';
   }
 }
 
@@ -41,7 +42,7 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
   for (var value in (response.values[2] as DBusArray).children) {
     var struct = value as DBusStruct;
 
-    if (struct.children.length != 5) {
+    if (struct.children.length != 6) {
       throw Exception('Invalid number of children in struct');
     }
 
@@ -50,8 +51,12 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
     var oncalendar = (struct.children[2] as DBusString).value;
     var wallpaper = (struct.children[3] as DBusString).value;
     var numWallpapers = (struct.children[4] as DBusUint64).value;
-    settings
-        .add(OutputSetting(name, mode, oncalendar, wallpaper, numWallpapers));
+    var images = (struct.children[5] as DBusArray)
+        .children
+        .map((e) => (e as DBusString).value)
+        .toList();
+    settings.add(OutputSetting(
+        name, mode, oncalendar, wallpaper, numWallpapers, images));
   }
 
   return GetOutputsSettingsResponse(version, status, settings);
