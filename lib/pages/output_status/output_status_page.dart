@@ -57,17 +57,32 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
           return Center(
             child: Column(
               children: [
-                DropdownMenu<int>(
-                  initialSelection: 0,
-                  dropdownMenuEntries: _outputItems,
-                  onSelected: (int? value) {
-                    setState(() {
-                      _selectedOutput = snapshot.data!.settings[value!];
-                    });
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownMenu<int>(
+                        initialSelection: 0,
+                        dropdownMenuEntries: _outputItems,
+                        onSelected: (int? value) {
+                          setState(() {
+                            _selectedOutput = snapshot.data!.settings[value!];
+                          });
 
-                    debugPrint(
-                        'Output setting: ${snapshot.data!.settings[value!]}');
-                  },
+                          debugPrint(
+                              'Output setting: ${snapshot.data!.settings[value!]}');
+                        },
+                      ),
+                      ElevatedButton(
+                          child: const Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _outputsSettingsFuture = sendGetOutputsSettings();
+                            });
+                          }),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Thumbnail(
