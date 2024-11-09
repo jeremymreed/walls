@@ -2,8 +2,7 @@ import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:walls/services/wallsd/wallsd_commands.dart';
 import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
-import 'package:walls/enums/thumbnail_flavor_enum.dart';
-import 'package:walls/widgets/thumbnail.dart';
+import 'package:walls/widgets/output_status.dart';
 
 class OutputStatusPage extends StatefulWidget {
   const OutputStatusPage({super.key});
@@ -15,7 +14,7 @@ class OutputStatusPage extends StatefulWidget {
 class _OutputStatusPageState extends State<OutputStatusPage> {
   late Future<GetOutputsSettingsResponse> _outputsSettingsFuture;
   late List<DropdownMenuEntry<int>> _outputItems;
-  late OutputSetting? _selectedOutput;
+  late int _selectedOutputIndex;
 
   List<DropdownMenuEntry<int>> _buildDropdownMenuItems(
       List<OutputSetting> settings) {
@@ -36,7 +35,7 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
     super.initState();
     _outputsSettingsFuture = sendGetOutputsSettings();
     _outputItems = <DropdownMenuEntry<int>>[];
-    _selectedOutput = null;
+    _selectedOutputIndex = 0;
     super.initState();
   }
 
@@ -48,36 +47,45 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
         if (snapshot.hasData && snapshot.data != null) {
           debugPrint('snapshot.data: ${snapshot.data}');
           _outputItems = _buildDropdownMenuItems(snapshot.data!.settings);
-          _selectedOutput ??= snapshot.data!.settings[0];
 
           if (_outputItems.isEmpty) {
             return const Text('No data');
           }
 
-          return Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: DropdownMenu<int>(
-                    initialSelection: 0,
-                    dropdownMenuEntries: _outputItems,
-                    onSelected: (int? value) {
-                      setState(() {
-                        _selectedOutput = snapshot.data!.settings[value!];
-                      });
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: DropdownMenu<int>(
+                      initialSelection: 0,
+                      dropdownMenuEntries: _outputItems,
+                      onSelected: (int? value) {
+                        setState(() {
+                          _selectedOutputIndex = value!;
+                        });
 
-                      debugPrint(
-                          'Output setting: ${snapshot.data!.settings[value!]}');
-                    },
+                        debugPrint(
+                            'Output setting: ${snapshot.data!.settings[value!]}');
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Thumbnail(
-                    imagePath: _selectedOutput!.wallpaper,
-                    flavor: ThumbnailFlavor.x_large),
-              ],
-            ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _outputsSettingsFuture = sendGetOutputsSettings();
+                      });
+                    },
+                    child: const Icon(Icons.refresh),
+                  ),
+                ],
+              ),
+              OutputStatus(
+                settings: snapshot.data!.settings[_selectedOutputIndex],
+              ),
+            ],
           );
         } else if (snapshot.hasError) {
           if (snapshot.error is DBusServiceUnknownException) {
