@@ -1,9 +1,10 @@
+import 'package:walls/enums/mode.dart';
 import 'package:walls/models/resolution.dart';
 
 class OutputSetting {
   final String name;
   final Resolution resolution;
-  final int mode;
+  final Mode mode;
   final String oncalendar;
   final String wallpaper;
   final int numWallpapers;

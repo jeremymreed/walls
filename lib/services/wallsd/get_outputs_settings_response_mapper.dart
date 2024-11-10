@@ -1,4 +1,5 @@
 import 'package:dbus/dbus.dart';
+import 'package:walls/enums/mode.dart';
 import 'package:walls/models/resolution.dart';
 import 'package:walls/models/get_outputs_settings_response.dart';
 import 'package:walls/models/output_setting.dart';
@@ -22,7 +23,7 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
     var name = (struct.children[0] as DBusString).value;
     var width = (struct.children[1] as DBusUint64).value;
     var height = (struct.children[2] as DBusUint64).value;
-    var mode = (struct.children[3] as DBusUint32).value;
+    var modeIndex = (struct.children[3] as DBusUint32).value;
     var oncalendar = (struct.children[4] as DBusString).value;
     var wallpaper = (struct.children[5] as DBusString).value;
     var numWallpapers = (struct.children[6] as DBusUint64).value;
@@ -30,8 +31,14 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
         .children
         .map((e) => (e as DBusString).value)
         .toList();
+
+    // wallsd is giving us a bad mode index for some reason.
+    if (modeIndex < 0 || modeIndex >= Mode.values.length) {
+      throw Exception('Invalid mode index');
+    }
+
     settings.add(OutputSetting(name, Resolution(width: width, height: height),
-        mode, oncalendar, wallpaper, numWallpapers, images));
+        Mode.values[modeIndex], oncalendar, wallpaper, numWallpapers, images));
   }
 
   return GetOutputsSettingsResponse(version, status, settings);
