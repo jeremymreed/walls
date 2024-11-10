@@ -1,34 +1,7 @@
 import 'package:dbus/dbus.dart';
-
-class OutputSetting {
-  final String name;
-  final int mode;
-  final String oncalendar;
-  final String wallpaper;
-  final int numWallpapers;
-  final List<String> images;
-
-  OutputSetting(this.name, this.mode, this.oncalendar, this.wallpaper,
-      this.numWallpapers, this.images);
-
-  @override
-  String toString() {
-    return 'OutputSetting{name: $name, mode: $mode, oncalendar: $oncalendar, wallpaper: $wallpaper, numWallpapers: $numWallpapers, images: $images}';
-  }
-}
-
-class GetOutputsSettingsResponse {
-  final int version;
-  final String status;
-  final List<OutputSetting> settings;
-
-  GetOutputsSettingsResponse(this.version, this.status, this.settings);
-
-  @override
-  String toString() {
-    return 'GetOutputsSettingsResponse{version: $version, status: $status, settings: $settings}';
-  }
-}
+import 'package:walls/models/resolution.dart';
+import 'package:walls/models/get_outputs_settings_response.dart';
+import 'package:walls/models/output_setting.dart';
 
 GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
     DBusMethodSuccessResponse response) {
@@ -42,21 +15,23 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
   for (var value in (response.values[2] as DBusArray).children) {
     var struct = value as DBusStruct;
 
-    if (struct.children.length != 6) {
+    if (struct.children.length != 8) {
       throw Exception('Invalid number of children in struct');
     }
 
     var name = (struct.children[0] as DBusString).value;
-    var mode = (struct.children[1] as DBusUint32).value;
-    var oncalendar = (struct.children[2] as DBusString).value;
-    var wallpaper = (struct.children[3] as DBusString).value;
-    var numWallpapers = (struct.children[4] as DBusUint64).value;
-    var images = (struct.children[5] as DBusArray)
+    var width = (struct.children[1] as DBusUint64).value;
+    var height = (struct.children[2] as DBusUint64).value;
+    var mode = (struct.children[3] as DBusUint32).value;
+    var oncalendar = (struct.children[4] as DBusString).value;
+    var wallpaper = (struct.children[5] as DBusString).value;
+    var numWallpapers = (struct.children[6] as DBusUint64).value;
+    var images = (struct.children[7] as DBusArray)
         .children
         .map((e) => (e as DBusString).value)
         .toList();
-    settings.add(OutputSetting(
-        name, mode, oncalendar, wallpaper, numWallpapers, images));
+    settings.add(OutputSetting(name, Resolution(width: width, height: height),
+        mode, oncalendar, wallpaper, numWallpapers, images));
   }
 
   return GetOutputsSettingsResponse(version, status, settings);

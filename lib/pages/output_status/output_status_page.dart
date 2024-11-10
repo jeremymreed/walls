@@ -1,7 +1,8 @@
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:walls/services/wallsd/wallsd_commands.dart';
-import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
+import 'package:walls/models/output_setting.dart';
+import 'package:walls/models/get_outputs_settings_response.dart';
 import 'package:walls/widgets/output_status.dart';
 
 class OutputStatusPage extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
+import 'package:walls/models/output_setting.dart';
 import 'package:walls/enums/thumbnail_flavor_enum.dart';
 import 'package:walls/widgets/thumbnail.dart';
 
@@ -16,7 +16,14 @@ class OutputStatus extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           Thumbnail(
-              imagePath: _settings.wallpaper, flavor: ThumbnailFlavor.x_large),
+            imagePath: _settings.wallpaper,
+            flavor: ThumbnailFlavor.x_large,
+          ),
+          const SizedBox(height: 10),
+          Text('Name: ${_settings.name}'),
+          const SizedBox(height: 10),
+          Text(
+              'Resolution: ${_settings.resolution.width}x${_settings.resolution.height}'),
         ],
       ),
     );
