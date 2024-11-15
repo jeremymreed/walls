@@ -23,6 +23,8 @@ class OutputStatus extends StatelessWidget {
           const SizedBox(height: 10),
           Text('Name: ${_settings.name}'),
           const SizedBox(height: 10),
+          Text('Loaded wallpapers: ${_settings.images.length}'),
+          const SizedBox(height: 10),
           Text('Mode: ${_settings.mode.toShortString()}'),
           const SizedBox(height: 10),
           Text(
