@@ -16,7 +16,7 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
   for (var value in (response.values[2] as DBusArray).children) {
     var struct = value as DBusStruct;
 
-    if (struct.children.length != 8) {
+    if (struct.children.length != 9) {
       throw Exception('Invalid number of children in struct');
     }
 
@@ -26,8 +26,9 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
     var modeIndex = (struct.children[3] as DBusUint32).value;
     var oncalendar = (struct.children[4] as DBusString).value;
     var wallpaper = (struct.children[5] as DBusString).value;
-    var numWallpapers = (struct.children[6] as DBusUint64).value;
-    var images = (struct.children[7] as DBusArray)
+    var currentIndex = (struct.children[6] as DBusUint64).value;
+    var numWallpapers = (struct.children[7] as DBusUint64).value;
+    var images = (struct.children[8] as DBusArray)
         .children
         .map((e) => (e as DBusString).value)
         .toList();
@@ -37,8 +38,15 @@ GetOutputsSettingsResponse parseGetOutputsSettingsResponse(
       throw Exception('Invalid mode index');
     }
 
-    settings.add(OutputSetting(name, Resolution(width: width, height: height),
-        Mode.values[modeIndex], oncalendar, wallpaper, numWallpapers, images));
+    settings.add(OutputSetting(
+        name,
+        Resolution(width: width, height: height),
+        Mode.values[modeIndex],
+        oncalendar,
+        wallpaper,
+        currentIndex,
+        numWallpapers,
+        images));
   }
 
   return GetOutputsSettingsResponse(version, status, settings);
