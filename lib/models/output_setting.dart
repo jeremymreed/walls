@@ -7,14 +7,15 @@ class OutputSetting {
   final Mode mode;
   final String oncalendar;
   final String wallpaper;
+  final int currentIndex;
   final int numWallpapers;
   final List<String> images;
 
   OutputSetting(this.name, this.resolution, this.mode, this.oncalendar,
-      this.wallpaper, this.numWallpapers, this.images);
+      this.wallpaper, this.currentIndex, this.numWallpapers, this.images);
 
   @override
   String toString() {
-    return 'OutputSetting{name: $name, resolution: $resolution, mode: $mode, oncalendar: $oncalendar, wallpaper: $wallpaper, numWallpapers: $numWallpapers, images: $images}';
+    return 'OutputSetting{name: $name, resolution: $resolution, mode: $mode, oncalendar: $oncalendar, wallpaper: $wallpaper, currentIndex: $currentIndex, numWallpapers: $numWallpapers, images: $images}';
   }
 }
