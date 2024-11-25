@@ -27,6 +27,10 @@ class OutputStatus extends StatelessWidget {
           const SizedBox(height: 10),
           Text('Mode: ${_settings.mode.toShortString()}'),
           const SizedBox(height: 10),
+          Text('Current Index: ${_settings.currentIndex}'),
+          const SizedBox(height: 10),
+          Text('On calendar: ${_settings.oncalendar}'),
+          const SizedBox(height: 10),
           Text(
               'Resolution: ${_settings.resolution.width}x${_settings.resolution.height}'),
         ],
