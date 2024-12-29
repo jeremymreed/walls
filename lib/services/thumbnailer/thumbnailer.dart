@@ -1,7 +1,6 @@
 import 'package:walls/main.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dbus/dbus.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;

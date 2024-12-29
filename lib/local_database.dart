@@ -1,5 +1,4 @@
 import 'package:walls/main.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:walls/mappers/image_entry_mapper.dart';
 import 'package:walls/models/image_entry.dart';
