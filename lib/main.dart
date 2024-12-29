@@ -12,6 +12,8 @@ import 'package:walls/pages/output_status/output_status_page.dart';
 final String dbPathBase = '${xdg.dataHome.path}/walls';
 late final LocalDatabase db;
 
+final String logPath = "${Platform.environment['HOME']}/.local/state/walls/";
+
 void main(List<String> arguments) async {
   if (Platform.isLinux) {
     sqfliteFfiInit();
