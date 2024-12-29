@@ -1,3 +1,4 @@
+import 'package:walls/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:walls/mappers/image_entry_mapper.dart';
@@ -10,7 +11,7 @@ class LocalDatabase {
   LocalDatabase({required this.dbPath});
 
   Future<void> openLocalDatabase() async {
-    debugPrint('Opening database at $dbPath');
+    loggerWrapper.info('Opening database at $dbPath');
     _db = await openDatabase(dbPath, version: 2, onCreate: (db, version) {
       db.execute('''
         CREATE TABLE wallpapers(
@@ -52,8 +53,9 @@ class LocalDatabase {
             ]);
       }
       await batch.commit(noResult: true);
-    } catch (ex) {
-      debugPrint('Error inserting data: $ex');
+    } catch (ex, stackTrace) {
+      loggerWrapper.error('Error inserting data: $ex',
+          error: ex, stackTrace: stackTrace);
     }
   }
 

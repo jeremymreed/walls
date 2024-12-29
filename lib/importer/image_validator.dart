@@ -4,6 +4,7 @@
 
 // Remember that memory allocated by the Rust code must be freed by the Rust code.
 
+import 'package:walls/main.dart';
 import 'dart:io';
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
@@ -65,7 +66,7 @@ class ImageValidator {
         imported: DateTime.now(),
       );
     } else {
-      debugPrint('$path is not valid.  Returning null.');
+      loggerWrapper.error('$path is not valid.  Returning null.');
       imageEntry = null;
     }
 

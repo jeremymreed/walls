@@ -1,3 +1,4 @@
+import 'package:walls/main.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:walls/services/wallsd/wallsd_commands.dart';
@@ -46,7 +47,7 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
       future: _outputsSettingsFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          debugPrint('snapshot.data: ${snapshot.data}');
+          loggerWrapper.info('snapshot.data: ${snapshot.data}');
           _outputItems = _buildDropdownMenuItems(snapshot.data!.settings);
 
           if (_outputItems.isEmpty) {
@@ -68,7 +69,7 @@ class _OutputStatusPageState extends State<OutputStatusPage> {
                           _selectedOutputIndex = value!;
                         });
 
-                        debugPrint(
+                        loggerWrapper.info(
                             'Output setting: ${snapshot.data!.settings[value!]}');
                       },
                     ),

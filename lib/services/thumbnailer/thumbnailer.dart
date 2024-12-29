@@ -1,3 +1,4 @@
+import 'package:walls/main.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -28,13 +29,13 @@ Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
   ];
   bool complete = false;
   try {
-    debugPrint('Requesting thumbnail for ${file.path}');
+    loggerWrapper.info('Requesting thumbnail for ${file.path}');
     objectManager.signals.listen((signal) {
-      debugPrint('Signal received: ${signal.name}');
+      loggerWrapper.info('Signal received: ${signal.name}');
 
       if (signal.name == 'Finished') {
         var id = signal.values[0];
-        debugPrint('Finished signal received: ${id.toNative()}');
+        loggerWrapper.info('Finished signal received: ${id.toNative()}');
         complete = true;
       }
     });
@@ -42,7 +43,7 @@ Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
         'org.freedesktop.thumbnails.Thumbnailer1', 'Queue', values,
         replySignature: DBusSignature('u'));
     var id = result.returnValues[0];
-    debugPrint('Query response: ${id.toNative()}');
+    loggerWrapper.info('Query response: ${id.toNative()}');
 
     await Future.any([
       Future.delayed(const Duration(seconds: 10)),
@@ -55,10 +56,11 @@ Future<bool> requestThumbnail(File file, String thumbnailFlavor) async {
       })
     ]);
   } on DBusServiceUnknownException {
-    debugPrint('Thumbnailer service not available');
+    loggerWrapper.error('Thumbnailer service not available');
     return false;
-  } catch (e) {
-    debugPrint('Some other error occurred: $e');
+  } catch (e, stackTrace) {
+    loggerWrapper.error('Some other error occurred: $e',
+        error: e, stackTrace: stackTrace);
     return false;
   } finally {
     await client.close();
@@ -77,7 +79,7 @@ String generateThumbnailFilename(File file) {
   var data = utf8.encode(fullPath);
   var hash = md5.convert(data);
 
-  debugPrint('Thumbnail file name: ${hash.toString()}.png');
+  loggerWrapper.info('Thumbnail file name: ${hash.toString()}.png');
 
   return '${hash.toString()}.png';
 }

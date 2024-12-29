@@ -1,3 +1,4 @@
+import 'package:walls/main.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:walls/shell_utils.dart' as shell_utils;
@@ -50,11 +51,11 @@ class _ThumbnailState extends State<Thumbnail> {
 
   Future<void> _requestThumbnail() async {
     String imagePath = shell_utils.expandTilde(widget._imagePath);
-    debugPrint('_imagePath: ${widget._imagePath}');
+    loggerWrapper.info('_imagePath: ${widget._imagePath}');
     File file = File(imagePath);
 
     if (!file.existsSync()) {
-      debugPrint('File does not exist');
+      loggerWrapper.error('File does not exist');
       setState(() {
         _thumbnailStatus = ThumbnailStatus.error;
       });
@@ -66,7 +67,7 @@ class _ThumbnailState extends State<Thumbnail> {
     // a file picker for importing individual files.
     // For now, this is ok.
     if (FileSystemEntity.isDirectorySync(imagePath)) {
-      debugPrint('Cannot thumbnail a directory.');
+      loggerWrapper.error('Cannot thumbnail a directory.');
       setState(() {
         _thumbnailStatus = ThumbnailStatus.error;
       });
@@ -77,13 +78,13 @@ class _ThumbnailState extends State<Thumbnail> {
     thumbnailPath = shell_utils.expandTilde(thumbnailPath);
 
     if (File(thumbnailPath).existsSync()) {
-      debugPrint('Thumbnail already exists');
+      loggerWrapper.info('Thumbnail already exists');
       setState(() {
         _thumbnailPath = thumbnailPath;
         _thumbnailStatus = ThumbnailStatus.loaded;
       });
     } else {
-      debugPrint('Thumbnail does not exist');
+      loggerWrapper.info('Thumbnail does not exist');
       setState(() {
         _thumbnailStatus = ThumbnailStatus.loading;
       });
@@ -95,9 +96,9 @@ class _ThumbnailState extends State<Thumbnail> {
           _thumbnailPath = thumbnailPath;
           _thumbnailStatus = ThumbnailStatus.loaded;
         });
-        debugPrint('_thumbnailPath: $_thumbnailPath');
+        loggerWrapper.info('_thumbnailPath: $_thumbnailPath');
       } else {
-        debugPrint('Thumbnail not created');
+        loggerWrapper.error('Thumbnail not created');
         setState(() {
           _thumbnailStatus = ThumbnailStatus.error;
         });

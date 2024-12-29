@@ -18,6 +18,11 @@ late final LocalDatabase db;
 late final LoggerWrapper loggerWrapper;
 late final String logPath;
 
+/*
+ * The debugPrint calls in this function are not a concern.
+ * We want this info dumped to console.
+ */
+
 void main(List<String> arguments) async {
   if (Platform.isLinux) {
     sqfliteFfiInit();

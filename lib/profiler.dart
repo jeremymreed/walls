@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 
+/*
+ * These debugPrint calls should be ok.
+ */
+
 class Profiler {
   DateTime? start;
 

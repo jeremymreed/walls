@@ -1,3 +1,4 @@
+import 'package:walls/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dbus/dbus.dart';
 import 'package:walls/models/get_outputs_settings_response.dart';
@@ -14,15 +15,15 @@ Future<GetOutputsSettingsResponse> sendGetOutputsSettings() async {
   var response = await object
       .callMethod('com.thetechforest.WallsD', 'GetOutputsSettings', []);
 
-  debugPrint('response: $response');
+  loggerWrapper.info('response: $response');
 
-  debugPrint('response.signature: ${response.signature}');
+  loggerWrapper.info('response.signature: ${response.signature}');
 
   await client.close();
 
   var finalResponse = parseGetOutputsSettingsResponse(response);
 
-  debugPrint('finalResponse: ${finalResponse.toString()}');
+  loggerWrapper.info('finalResponse: ${finalResponse.toString()}');
 
   return finalResponse;
 }

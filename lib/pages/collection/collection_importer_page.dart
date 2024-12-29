@@ -56,7 +56,8 @@ class _CollectionImporterState extends State<CollectionImporter> {
     }
 
     db.insertImages(imageEntries: imageEntries);
-    debugPrint('Inserted ${imageEntries.length} images into the database.');
+    loggerWrapper
+        .info('Inserted ${imageEntries.length} images into the database.');
     setState(() {
       _processFilesDuration = DateTime.now().difference(start);
     });
@@ -113,7 +114,7 @@ class _CollectionImporterState extends State<CollectionImporter> {
                   await _processFiles();
                   //_imageImporter.run(collectionPath);
                 } else {
-                  debugPrint(
+                  loggerWrapper.error(
                       'either collectionPath does not exist or is not a directory');
                 }
               },

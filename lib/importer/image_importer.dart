@@ -1,5 +1,5 @@
+import 'package:walls/main.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 
 class ImageImporter {
   ImageImporter();
@@ -11,7 +11,7 @@ class ImageImporter {
     } else if (FileSystemEntity.isDirectorySync(collectionPath)) {
       _processDirectory(collectionPath, files);
     } else {
-      debugPrint('Not a file or directory!');
+      loggerWrapper.error('Not a file or directory!');
     }
 
     return files;
