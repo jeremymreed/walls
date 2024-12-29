@@ -1,5 +1,4 @@
 import 'package:walls/main.dart';
-import 'package:flutter/foundation.dart';
 import 'package:dbus/dbus.dart';
 import 'package:walls/models/get_outputs_settings_response.dart';
 import 'package:walls/services/wallsd/get_outputs_settings_response_mapper.dart';
