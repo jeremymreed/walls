@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:walls/config.dart';
+import 'package:walls/logger_wrapper.dart';
 import 'package:walls/local_database.dart';
 import 'package:walls/pages/collection/collection_page.dart';
 import 'package:walls/pages/output_status/output_status_page.dart';
@@ -14,6 +15,7 @@ late final PackageInfo packageInfo;
 late final String dbPathBase;
 late final LocalDatabase db;
 
+late final LoggerWrapper loggerWrapper;
 late final String logPath;
 
 void main(List<String> arguments) async {
@@ -34,6 +36,8 @@ void main(List<String> arguments) async {
 
   debugPrint('logPath: $logPath');
   debugPrint('dbPathBase: $dbPathBase');
+
+  loggerWrapper = LoggerWrapper(logPath: logPath);
 
   databaseFactory = databaseFactoryFfi;
 
@@ -57,6 +61,8 @@ void main(List<String> arguments) async {
   db = LocalDatabase(dbPath: config.dbPath);
 
   await db.openLocalDatabase();
+
+  loggerWrapper.info('Setup completed, running the app');
   runApp(const MyApp());
 }
 
