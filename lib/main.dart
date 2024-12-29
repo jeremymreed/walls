@@ -26,6 +26,7 @@ void main(List<String> arguments) async {
     exit(1);
   }
 
+  // Required for the package_info_plus package.
   WidgetsFlutterBinding.ensureInitialized();
   packageInfo = await PackageInfo.fromPlatform();
 
