@@ -2,6 +2,7 @@
 
 #### Project specific ####
 libs/
+debug_print_instances.txt
 
 #### dart ####
 # See https://www.dartlang.org/guides/libraries/private-files
