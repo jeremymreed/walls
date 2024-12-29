@@ -1,11 +1,33 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+
+class WallsDevelopmentFilter extends DevelopmentFilter {
+  @override
+  bool shouldLog(LogEvent event) {
+    return event.level.index <= Level.trace.index;
+  }
+}
+
+class WallsProductionFilter extends ProductionFilter {
+  @override
+  bool shouldLog(LogEvent event) {
+    return event.level.index <= Level.warning.index;
+  }
+}
+
+LogFilter getLogFilter() {
+  if (kReleaseMode) {
+    return WallsProductionFilter();
+  }
+  return WallsDevelopmentFilter();
+}
 
 class LoggerWrapper {
   late final Logger logger;
 
   LoggerWrapper({required String logPath}) {
     logger = Logger(
-      filter: null,
+      filter: getLogFilter(),
       printer: null,
       output: AdvancedFileOutput(
         path: logPath,
