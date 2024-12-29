@@ -3,16 +3,18 @@ import 'package:args/args.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:walls/config.dart';
 import 'package:walls/local_database.dart';
 import 'package:walls/pages/collection/collection_page.dart';
 import 'package:walls/pages/output_status/output_status_page.dart';
 
-// We're supporting only Linux, so this hardcoded path is ok.
-final String dbPathBase = '${xdg.dataHome.path}/walls';
+late final PackageInfo packageInfo;
+
+late final String dbPathBase;
 late final LocalDatabase db;
 
-final String logPath = "${Platform.environment['HOME']}/.local/state/walls/";
+late final String logPath;
 
 void main(List<String> arguments) async {
   if (Platform.isLinux) {
@@ -21,6 +23,18 @@ void main(List<String> arguments) async {
     debugPrint('Platform is not Linux');
     exit(1);
   }
+
+  WidgetsFlutterBinding.ensureInitialized();
+  packageInfo = await PackageInfo.fromPlatform();
+
+  // We're supporting only Linux, so this hardcoded path is ok.
+  logPath =
+      "${Platform.environment['HOME']}/.local/state/${packageInfo.appName}/";
+  dbPathBase = '${xdg.dataHome.path}/walls';
+
+  debugPrint('logPath: $logPath');
+  debugPrint('dbPathBase: $dbPathBase');
+
   databaseFactory = databaseFactoryFfi;
 
   ArgParser parser = ArgParser();
